@@ -43,3 +43,6 @@ Chaque balise HTML est un composant React par exemple
 <App>
 ``` 
 est un composant React.
+
+children : est une propriété qui permet de récupérer le contenu d'un composant React.
+
