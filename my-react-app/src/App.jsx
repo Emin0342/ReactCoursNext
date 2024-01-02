@@ -2,7 +2,8 @@ import { useState } from 'react'
 import './App.css'
 import Profile from './components/Profile/Profile';
 import PropExemple from './components/PropsExemple/PropExemple';
-import TopNavBar from './components/topNavBar/topNavBar';
+import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
 
 // En react tous les composants sont des fonctions
 // tous composant react doit retourner un élément JSX
@@ -11,7 +12,7 @@ import TopNavBar from './components/topNavBar/topNavBar';
 
 // Ce sont des fonctions qui commencent par use (convention)
 function App() {
-  const [name, setName] = useState("React"); // useState est un hook qui permet de gérer l'état d'un composant
+  const [name, setName] = useState("Rfdfdfeact"); // useState est un hook qui permet de gérer l'état d'un composant
   // useState retourne un tableau avec deux éléments
   // Le premier est la valeur de l'état
   // Le second est une fonction qui permet de mettre à jour l'état
@@ -22,13 +23,19 @@ function App() {
 
     // On peut aussi mettre à jour l'état en fonction de l'état précédent
     // Cette syntaxe est utilisée quand on met à jour un état en fonction de l'état précédent
-    setName((prev) => { return prev + "Vite";}) // prev est la valeur précédente de l'état
+    setName((prev) => { return prev + name;}) // prev est la valeur précédente de l'état
+  }
+
+  function updateName(name) {
+    setName(name);
   }
 
   return (
     <>
-      <TopNavBar/>
+      <Header />
+      <Profile name={name} childClickHandler={onClickHandler} />
       {/* <PropExemple name={name} childClickHandler={onClickHandler} /> */}
+      <Footer />
     </>
   );
 }
