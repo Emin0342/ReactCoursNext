@@ -1,15 +1,26 @@
 import styles from "./Profile.module.css";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMediaQuery } from 'react-responsive';
 
 
 function Profile() {
-  const [visible, setVisible] = useState(true); 
+  const [visible, setVisible] = useState(false); 
   const [name, setName] = useState("ggez");
   const [tempName, setTempName] = useState(name);
   const isMobile = useMediaQuery({ query: '(max-width: 600px)' });
 
+  useEffect(() => {
+    console.log("Ici on est dans le useEffect");
+  
+    }, [name]);
 
+    useEffect(() => {
+      if (visible === true) {
+        console.log("true");
+      } else {
+        console.log("false");
+      }
+  }, [visible]);
 
   return (
     <div>
