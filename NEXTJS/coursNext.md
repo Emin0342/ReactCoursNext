@@ -31,3 +31,22 @@ ESLint : Oui
 Tailwind CSS : Oui
 src /directory : Oui
 import alias : (très utile aparamant mais ici on repond non)
+
+## Structure d'un projet NextJS
+
+tsconfig.json : fichier de configuration TypeScript
+
+src/app : contient les composants de l'application
+
+tous ce qui est destiné a être une page doit être dans le dossier app
+
+pages.tsx / layout.tsx 
+
+Chaque dossier correspond a une url 
+
+![Alt text](image.png)
+
+En gros Layout c'est le fichier qui va contenir le header et le footer de notre site par exemeple 
+au lieu de faire un component header et footer on met tous dans le layout et on l'importe dans les pages
+
+MAIS si on veut un autre header par exemple il faut faire un autre layout dans le dossier en question
