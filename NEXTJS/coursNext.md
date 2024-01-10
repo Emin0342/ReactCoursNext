@@ -189,3 +189,11 @@ export default function Error() {
   return <div>Error...</div>;
 }
 ```
+
+
+## Consignes TP
+
+A partir du projet fourni, mettez en place une api avec Next.js et expliquez comment elle fonctionne :
+
+- decrivez le systeme de fichier et les conventions de nommage.
+- mettez en place au moins une route
