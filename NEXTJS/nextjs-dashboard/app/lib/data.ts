@@ -236,3 +236,23 @@ export async function getUser(email: string) {
     throw new Error('Failed to fetch user.');
   }
 }
+
+export async function getAllUsers() {
+  try {
+    const users = await sql`SELECT * FROM users`;
+    return users.rows as User[];
+  } catch (error) {
+    console.error('Failed to fetch users:', error);
+    throw new Error('Failed to fetch users.');
+  }
+}
+
+export async function getAllInvoiceById(id: string) {
+  try {
+    const invoices = await sql`SELECT * FROM invoices WHERE id=${id}`;
+    return invoices.rows as InvoiceForm[];
+  } catch (error) {
+    console.error('Failed to fetch invoices:', error);
+    throw new Error('Failed to fetch invoices.');
+  }
+}
