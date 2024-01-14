@@ -1,5 +1,4 @@
 import { sql } from '@vercel/postgres';
-import { unstable_noStore as noStore } from 'next/cache';
 import {
   CustomerField,
   CustomersTableType,
@@ -10,21 +9,23 @@ import {
   Revenue,
 } from './definitions';
 import { formatCurrency } from './utils';
+import { unstable_noStore as noStore } from 'next/cache';
 
 export async function fetchRevenue() {
-  // Add noStore() here prevent the response from being cached.
+  // Add noStore() here to prevent the response from being cached.
   // This is equivalent to in fetch(..., {cache: 'no-store'}).
   noStore();
   try {
-    // We artificially delay a response for demo purposes.
+    // Artificially delay a response for demo purposes.
     // Don't do this in production :)
-    console.log('Fetching revenue data...');
-    await new Promise((resolve) => setTimeout(resolve, 3000));
- 
+
+    // console.log('Fetching revenue data...');
+    // await new Promise((resolve) => setTimeout(resolve, 3000));
+
     const data = await sql<Revenue>`SELECT * FROM revenue`;
- 
-    console.log('Data fetch completed after 3 seconds.');
- 
+
+    // console.log('Data fetch completed after 3 seconds.');
+
     return data.rows;
   } catch (error) {
     console.error('Database Error:', error);
@@ -35,13 +36,12 @@ export async function fetchRevenue() {
 export async function fetchLatestInvoices() {
   noStore();
   try {
-    // Fetch the last 5 invoices, sorted by date
-const data = await sql<LatestInvoiceRaw>`
-SELECT invoices.amount, customers.name, customers.image_url, customers.email
-FROM invoices
-JOIN customers ON invoices.customer_id = customers.id
-ORDER BY invoices.date DESC
-LIMIT 5`;
+    const data = await sql<LatestInvoiceRaw>`
+      SELECT invoices.amount, customers.name, customers.image_url, customers.email, invoices.id
+      FROM invoices
+      JOIN customers ON invoices.customer_id = customers.id
+      ORDER BY invoices.date DESC
+      LIMIT 5`;
 
     const latestInvoices = data.rows.map((invoice) => ({
       ...invoice,
@@ -67,11 +67,11 @@ export async function fetchCardData() {
          SUM(CASE WHEN status = 'pending' THEN amount ELSE 0 END) AS "pending"
          FROM invoices`;
 
-         const data = await Promise.all([
-          invoiceCountPromise,
-          customerCountPromise,
-          invoiceStatusPromise,
-        ]);
+    const data = await Promise.all([
+      invoiceCountPromise,
+      customerCountPromise,
+      invoiceStatusPromise,
+    ]);
 
     const numberOfInvoices = Number(data[0].rows[0].count ?? '0');
     const numberOfCustomers = Number(data[1].rows[0].count ?? '0');
@@ -168,7 +168,6 @@ export async function fetchInvoiceById(id: string) {
       amount: invoice.amount / 100,
     }));
 
-    console.log(invoice); // Invoice is an empty array []
     return invoice[0];
   } catch (error) {
     console.error('Database Error:', error);
@@ -235,25 +234,5 @@ export async function getUser(email: string) {
   } catch (error) {
     console.error('Failed to fetch user:', error);
     throw new Error('Failed to fetch user.');
-  }
-}
-
-export async function getAllUsers() {
-  try {
-    const users = await sql`SELECT * FROM users`;
-    return users.rows as User[];
-  } catch (error) {
-    console.error('Failed to fetch users:', error);
-    throw new Error('Failed to fetch users.');
-  }
-}
-
-export async function getAllInvoiceById(id: string) {
-  try {
-    const invoices = await sql`SELECT * FROM invoices WHERE id=${id}`;
-    return invoices.rows as InvoiceForm[];
-  } catch (error) {
-    console.error('Failed to fetch invoices:', error);
-    throw new Error('Failed to fetch invoices.');
   }
 }
